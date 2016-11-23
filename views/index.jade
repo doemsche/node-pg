@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  if(!user)
+    div please
+      a(href='/login') login
+  else
+    div hello 
+      span= user.email
