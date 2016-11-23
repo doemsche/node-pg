@@ -7,9 +7,11 @@ const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/
 
 const models = require('../server/models/index');
 
-
+const isLoggedIn = require('connect-ensure-login').ensureLoggedIn();
 router.use(function timeLog (req, res, next) {
   console.log('Access Books Router @Time: ', Date.now())
+  // console.log(require('connect-ensure-login').ensureLoggedIn()());
+ 
   next()
 })
 
@@ -21,7 +23,7 @@ router.get('/', (req,res,nxt)=>{
 });
 
 /* GET single book. */
-router.get('/:id', (req, res)=>{
+router.get('/:id',isLoggedIn, (req, res)=>{
   models.book.findAll({where:{id:req.params.id}}).then((book)=>{
     console.log('###')
     console.log(req.session.passport);

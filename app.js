@@ -183,12 +183,24 @@ app.use('/users', users);
 //   console.log(passort)
 // })
 
+app.get('/',
+  function(req, res){
+    res.render('index');
+  });
 
 
 app.get('/login',
   function(req, res){
     res.render('login');
   });
+app.get('/logout', logout);
+  function logout(req, res){
+    if(req.isAuthenticated()){
+      req.logout();
+      // req.session.messages = req.i18n.__("Log out successfully");
+    }
+      res.redirect('/');
+  }
 app.post('/login', 
   passport.authenticate('local', { failureRedirect: '/login' }),
   function(req, res) {
